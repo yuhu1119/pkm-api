@@ -1,4 +1,4 @@
--- 通过环境变量 DB_CONFIG_ID 取 MySQL 连接。
+-- 通过环境变量 DB_CONFIG_ID 取平台数据库（SQLite）。
 
 local M = {}
 

@@ -8,4 +8,5 @@ ctx.res.json({
   ok = true,
   name = "产品知识模型",
   engine = "speedloop-lua",
+  db = "sqlite",
 })

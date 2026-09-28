@@ -14,10 +14,10 @@ local SECRET_KEYS = {
 
 --- 读取全部设置。
 function M.get_map()
-  local rows = db.query("SELECT `key`, value FROM app_settings")
+  local rows = db.query("SELECT setting_key, value FROM app_settings")
   local out = {}
   for _, row in ipairs(rows) do
-    out[row.key] = row.value or ""
+    out[row.setting_key] = row.value or ""
   end
   return out
 end
@@ -26,11 +26,11 @@ end
 function M.put_map(data)
   for key, value in pairs(data or {}) do
     if type(key) == "string" then
-      local exist = db.one("SELECT `key` FROM app_settings WHERE `key` = ?", { key })
+      local exist = db.one("SELECT setting_key FROM app_settings WHERE setting_key = ?", { key })
       if exist then
-        db.exec("UPDATE app_settings SET value = ?, updated_at = ? WHERE `key` = ?", { tostring(value or ""), util.now(), key })
+        db.exec("UPDATE app_settings SET value = ?, updated_at = ? WHERE setting_key = ?", { tostring(value or ""), util.now(), key })
       else
-        db.exec("INSERT INTO app_settings (`key`, value, updated_at) VALUES (?, ?, ?)", { key, tostring(value or ""), util.now() })
+        db.exec("INSERT INTO app_settings (setting_key, value, updated_at) VALUES (?, ?, ?)", { key, tostring(value or ""), util.now() })
       end
     end
   end

@@ -36,9 +36,9 @@ function M.recently(username, action, path, seconds)
   local row = db.one(
     [[SELECT id FROM audit_logs
       WHERE username = ? AND action = ? AND path = ?
-      AND created_at >= DATE_SUB(NOW(), INTERVAL ? SECOND)
+      AND created_at >= datetime('now', ?)
       ORDER BY id DESC LIMIT 1]],
-    { username, action, path, seconds or 30 }
+    { username, action, path, string.format("-%d seconds", seconds or 30) }
   )
   return not not row
 end

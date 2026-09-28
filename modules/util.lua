@@ -38,7 +38,7 @@ function M.encode(value)
   return ctx.utils.json_encode(value == nil and {} or value)
 end
 
---- 当前 MySQL DATETIME。
+--- 当前时间，格式与 SQLite datetime 文本一致。
 function M.now()
   return ctx.utils.now_str()
 end
@@ -190,7 +190,7 @@ function M.csv(rows)
   return table.concat(lines, "\n")
 end
 
---- 布尔：MySQL 0/1。
+--- 布尔：库内 0/1。
 function M.is_true(v)
   return v == true or v == 1 or v == "1"
 end

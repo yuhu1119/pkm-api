@@ -33,7 +33,7 @@ function M.serialize(row, include_pack)
     name = row.name,
     scope = row.scope,
     product_ids = util.arr(parse_ids(row.product_ids)),
-    trigger = row["trigger"] or row.trigger,
+    trigger = row.trigger_kind or row.trigger or "manual",
     note = row.note or "",
     product_count = row.product_count,
     entity_count = row.entity_count,
@@ -83,7 +83,7 @@ function M.create(body, username)
   local version_no = (tonumber(maxn and maxn.n) or 0) + 1
   local ins = db.exec(
     [[INSERT INTO knowledge_releases
-      (version_no, name, scope, product_ids, `trigger`, note, product_count, entity_count, type_ready, corpus_docs, pack_json, created_by, created_at)
+      (version_no, name, scope, product_ids, trigger_kind, note, product_count, entity_count, type_ready, corpus_docs, pack_json, created_by, created_at)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]],
     {
       version_no,
