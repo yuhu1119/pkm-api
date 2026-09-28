@@ -1,0 +1,9 @@
+{
+  "server": "https://your-speedloop-host",
+  "token": "sl_deploy_replace_me",
+  "projects": {
+    "backend": {
+      "id": 0
+    }
+  }
+}
