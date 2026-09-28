@@ -2,15 +2,19 @@
 
 独立后端项目：**不要**和原 FastAPI 仓库混部。平台 Git 同步目录必须是 `workers/` + `modules/`。
 
+**从建 GitHub 到 SpeedLoop 联调的逐步说明见 [GETTING_STARTED.md](./GETTING_STARTED.md)。**
+
 ## 在平台上做什么
 
 1. 新建 **后端项目**，记下项目 code（前端 `VITE_API_BASE` 要用 `/{code}`）。
 2. 绑定本仓库，Workers 路径 `workers`，Modules 路径 `modules`。
 3. 环境变量：
-   - `DB_CONFIG_ID`：已申请的 MySQL 配置 ID
+   - `DB_CONFIG_ID`：平台 Databases 里 **SQLite** 配置的 ID（连接方式选 SQLite，库文件由平台托管）
    - `ADMIN_USERNAMES`（可选）：这些 SSO 账号首次进入即为管理员
-4. 在 SQL 控制台执行 `sql/schema.sql`。
+4. 在 SQL 控制台执行 `sql/schema.sql`（SQLite 方言）。若一次只能跑一条语句，按分号拆开执行。
 5. 同步 Git 后，路由由脚本头部 `@route` 自动注册。实际路径为 `/{项目code}/api/...`。
+
+平台 SQLite 是单连接串行、默认约 1GB 配额，适合当前知识治理体量；高并发流水不适合再往这个库里堆。Worker 里 `ctx.db` 的写法与 MySQL 相同，事务不要超过约 2 秒，且不要在事务里调 HTTP。
 
 ## 认证
 
